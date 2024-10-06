@@ -7,7 +7,7 @@ import PetList from '../components/PetList';
 import OwnerList from '../components/OwnerList';
 import AppointmentList from '../components/AppointmentList';
 import MedicalRecord from '../components/MedicalRecord';
-import './Dashboard.css';
+import './Dashboard.css'; 
 
 const Dashboard: React.FC = () => {
   return (
