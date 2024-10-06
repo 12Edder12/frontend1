@@ -1,26 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './components/Login';
+import AdminDashboard from './components/DashboardVet';
+import AssistantDashboard from './components/DashboardAssistant';
 import './App.css';
+import PrivateRoute from './components/PrivateRoute';
+import ErrorPage from './pages/ErrorPage';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route
+          path="/dashboard/admin"
+          element={
+            <PrivateRoute requiredRole={1}>
+              <AdminDashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/dashboard/assistant"
+          element={
+            <PrivateRoute requiredRole={2}>
+              <AssistantDashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route path="/error" element={<ErrorPage />} />
+      </Routes>
   );
-}
+};
 
 export default App;
