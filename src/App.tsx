@@ -1,34 +1,39 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/Login';
-import AdminDashboard from './components/DashboardVet';
-import AssistantDashboard from './components/DashboardAssistant';
-import './App.css';
-import PrivateRoute from './components/PrivateRoute';
+import Dashboard from './components/Dashboard';
 import ErrorPage from './pages/ErrorPage';
+import PrivateRoute from './components/PrivateRoute';
+import DashboardHome from './components/DashboardHome';
+import AuthRoute from './components/AuthRoute';
 
 const App: React.FC = () => {
   return (
       <Routes>
-        <Route path="/" element={<Login />} />
+        {/* Ruta pública para login */}
+        <Route path="/" element={
+          <AuthRoute>
+              <Login />
+            </AuthRoute>
+          } />
+
+        {/* Ruta protegida para el Dashboard */}
         <Route
-          path="/dashboard/admin"
+          path="/dashboard"
           element={
-            <PrivateRoute requiredRole={1}>
-              <AdminDashboard />
+            <PrivateRoute requiredRoles={[1, 2]}>
+              <Dashboard />
             </PrivateRoute>
           }
         />
-        <Route
-          path="/dashboard/assistant"
-          element={
-            <PrivateRoute requiredRole={2}>
-              <AssistantDashboard />
-            </PrivateRoute>
-          }
-        />
+
+        {/* Página de error */}
         <Route path="/error" element={<ErrorPage />} />
+
+        {/* Ruta para manejar cualquier otra URL no definida */}
+        <Route path="*" element={<DashboardHome />} />
       </Routes>
+   
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Login.css';
+import backgroundImage from './imagen.png'; // Asegúrate de que la ruta de la imagen sea correcta
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -33,9 +33,9 @@ const Login: React.FC = () => {
 
       // Redirigir según el rol
       if (decodedToken.role === 1) {
-        navigate('/dashboard/admin'); // Ruta para el veterinario
+        navigate('/dashboard'); // Ruta para el veterinario
       } else if (decodedToken.role === 2) {
-        navigate('/dashboard/assistant'); // Ruta para el asistente
+        navigate('/dashboard'); // Ruta para el asistente
       } else {
         setErrorMessage('Rol desconocido. Contacta con el administrador.');
       }
@@ -46,30 +46,42 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="form-container">
-        <h2>Inicio de Sesión</h2>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 relative">
+      <img
+        src={backgroundImage}
+        alt="Background"
+        className="absolute inset-0 object-cover w-full h-full opacity-50" // Imagen de fondo
+      />
+      <div className="bg-blue-800 bg-opacity-60 backdrop-blur-lg p-6 rounded-lg shadow-md w-96 z-10"> {/* Fondo azul y desenfoque */}
+        <h2 className="text-2xl font-bold mb-4 text-center text-white">Inicio de Sesión</h2>
         <form onSubmit={handleLogin}>
-          <div className="form-group">
-            <label>Usuario</label>
+          <div className="mb-4">
+            <label className="block text-white">Usuario</label>
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
+              className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:border-blue-500"
             />
           </div>
-          <div className="form-group">
-            <label>Contraseña</label>
+          <div className="mb-4">
+            <label className="block text-white">Contraseña</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:border-blue-500"
             />
           </div>
-          {errorMessage && <p className="error-message">{errorMessage}</p>}
-          <button type="submit">Ingresar</button>
+          {errorMessage && <p className="text-red-500 text-sm mb-4">{errorMessage}</p>}
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition duration-200"
+          >
+            Ingresar
+          </button>
         </form>
       </div>
     </div>
